@@ -1,0 +1,70 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  padding: 21px 18px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.resetButton {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.saveButton {
+  background-color: #0044c1;
+  color: white;
+  border-radius: 2px;
+}
+
+.closeButton {
+  position: absolute;
+  background-color: transparent;
+  top: 5px;
+  right: 0;
+  border: none;
+
+  &:hover {
+    border: none;
+  }
+}
+
+.modal p {
+  margin: 0;
+  width: 424px;
+  max-width: 100%;
+}
+.modalForm {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 1rem;
+  gap: 33px;
+}
+
+.modalForm label {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.modalForm input {
+  width: 100%;
+  box-sizing: border-box;
+}
