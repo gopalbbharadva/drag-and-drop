@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './App.module.css'
 import { Modal } from './components/Modal'
 
@@ -20,7 +20,12 @@ function App() {
   const closeModalHandler = () => {
     setShowModal((prev) => !prev)
   }
-  const [elementsArr, setElementsArr] = useState([] as ElementType[])
+  const [elementsArr, setElementsArr] = useState(
+    localStorage.getItem('items')
+      ? JSON.parse(localStorage.getItem('items') || '')
+      : ([] as any)
+    // ElementType[]
+  )
 
   const dragStart = (event: any, id?: string) => {
     event.dataTransfer.setData('text/plain', 'draggable')
@@ -39,12 +44,13 @@ function App() {
   }
 
   const saveHandler = (e: any, textInput: string) => {
-    console.log('submit')
     e.preventDefault()
-    setElementsArr((prev) =>
-      prev.find((item) => item.id === currentElementId)
+    console.log('submit')
+    console.log(currentElementId, 'elementId')
+    setElementsArr((prev: any) =>
+      prev.find((item: any) => item.id === currentElementId)
         ? prev.map(
-            (element) =>
+            (element: any) =>
               element.id === currentElementId
                 ? {
                     ...element,
@@ -65,14 +71,46 @@ function App() {
             },
           ]
     )
-    setShowModal((prev) => !prev)
+    setShowModal(showModal ? !showModal : showModal)
   }
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(elementsArr))
+  }, [elementsArr])
 
-  const dragEndHandler = () => {
+  const dragEndHandler = (id: string) => {
+    console.log(id, 'id')
     setIsDragging(false)
-    setShowModal(true)
+    if (!elementsArr.find((item: any) => item.id === id)) {
+      console.log('if')
+      setShowModal(true)
+      return
+    }
+    setElementsArr((prev: any) =>
+      prev.find((item: any) => item.id === currentElementId)
+        ? prev.map(
+            (element: any) =>
+              element.id === currentElementId
+                ? {
+                    ...element,
+                    xPoint: position.x,
+                    yPoint: position.y,
+                    text: prev.find((item: any) => item.id === currentElementId)
+                      .text,
+                  }
+                : element,
+            []
+          )
+        : [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              xPoint: position.x,
+              yPoint: position.y,
+              text: prev.find((item: any) => item.id === currentElementId).text,
+            },
+          ]
+    )
   }
-  console.log(showModal, 'showModal')
 
   const handleKeyPress = (event: any, id: string) => {
     // Check if the pressed key is Enter (key code 13)
@@ -81,7 +119,7 @@ function App() {
     }
     if (event.key === 'Delete') {
       setCurrentElementId('')
-      setElementsArr((prev) => prev.filter((item) => item.id !== id))
+      setElementsArr((prev: any) => prev.filter((item: any) => item.id !== id))
       // Call your click handler function here
       // console.log('enter key clicked')
       // handleClick()
@@ -114,7 +152,7 @@ function App() {
             tabIndex={0}
             draggable='true'
             onDragStart={(e) => dragStart(e, id)}
-            onDragEnd={dragEndHandler}
+            onDragEnd={() => dragEndHandler(id)}
             style={{
               border: id === currentElementId ? '1px solid red' : '',
               position: 'absolute',
@@ -122,6 +160,7 @@ function App() {
               top: `${yPoint}px`,
               cursor: 'grab',
               color: 'black',
+              zIndex: showModal ? -1 : 1,
             }}
           >
             {text}

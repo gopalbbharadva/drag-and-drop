@@ -10,6 +10,7 @@
   display: grid;
   box-sizing: border-box;
   grid-template-columns: 80% 20%;
+  position: relative;
 }
 
 .blankContainer {

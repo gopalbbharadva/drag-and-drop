@@ -33,10 +33,7 @@ export const Modal = ({
         <button onClick={closeHandler} className={styles.closeButton}>
           X
         </button>
-        <form
-          onSubmit={(e) => submitFormHandler(e, formState.text, '')}
-          className={styles.modalForm}
-        >
+        <form className={styles.modalForm}>
           <label htmlFor='x-axis'>
             Text
             <input
@@ -70,7 +67,8 @@ export const Modal = ({
             />
           </label>
           <button
-            type='submit'
+            type='button'
+            onClick={(e) => submitFormHandler(e, formState.text, '')}
             className={`${styles.resetButton} ${styles.saveButton}`}
           >
             Save Changes
