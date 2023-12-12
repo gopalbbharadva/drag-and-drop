@@ -17,6 +17,28 @@
   border: 1px solid green;
 }
 
+.dragButton {
+  background-color: blue;
+  color: white;
+  border-radius: 4px;
+}
+
+.draggableItem {
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  cursor: 'grab';
+  color: black;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  box-shadow: 0.3 0.5 0.6 black;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
 .rightPart {
   background-color: black;
   color: white;

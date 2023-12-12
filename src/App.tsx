@@ -17,6 +17,9 @@ function App() {
     ''
   )
 
+  const [currentElement, setCurrentElement] = useState('')
+  const inputs = ['Label', 'Button', 'Input']
+
   const closeModalHandler = () => {
     setShowModal((prev) => !prev)
   }
@@ -27,11 +30,12 @@ function App() {
     // ElementType[]
   )
 
-  const dragStart = (event: any, id?: string) => {
+  const dragStart = (event: any, id?: string, elementType?: string) => {
     event.dataTransfer.setData('text/plain', 'draggable')
     event.dataTransfer.effectAllowed = 'move'
     setIsDragging(true)
     setCurrentElementId(id)
+    if (elementType) setCurrentElement(elementType)
   }
 
   const dragOverHandler = (event: any) => {
@@ -68,11 +72,13 @@ function App() {
               xPoint: position.x,
               yPoint: position.y,
               text: textInput,
+              elementType: currentElement,
             },
           ]
     )
     setShowModal(showModal ? !showModal : showModal)
   }
+
   useEffect(() => {
     localStorage.setItem('items', JSON.stringify(elementsArr))
   }, [elementsArr])
@@ -104,6 +110,7 @@ function App() {
             ...prev,
             {
               id: crypto.randomUUID(),
+              elementType: currentElement,
               xPoint: position.x,
               yPoint: position.y,
               text: prev.find((item: any) => item.id === currentElementId).text,
@@ -111,6 +118,7 @@ function App() {
           ]
     )
   }
+  console.log(elementsArr, 'elementsArr')
 
   const handleKeyPress = (event: any, id: string) => {
     // Check if the pressed key is Enter (key code 13)
@@ -135,51 +143,71 @@ function App() {
           itemInfo={{
             xAxis: position.x,
             yAxis: position.y,
-            text: elementsArr.find((item) => item.id === currentElementId)
-              ? elementsArr.find((item) => item.id === currentElementId)?.text
+            text: elementsArr.find((item: any) => item.id === currentElementId)
+              ? elementsArr.find((item: any) => item.id === currentElementId)
+                  ?.text
               : '',
           }}
         />
       )}
       <div onDragOver={dragOverHandler} className={styles.blankContainer}>
         {/* white part */}
-        {elementsArr.map(({ text, xPoint, yPoint, id }) => (
-          <div
-            key={id}
-            onKeyDown={(e) => handleKeyPress(e, id)}
-            onClick={() => setCurrentElementId(id)}
-            id={id}
-            tabIndex={0}
-            draggable='true'
-            onDragStart={(e) => dragStart(e, id)}
-            onDragEnd={() => dragEndHandler(id)}
-            style={{
-              border: id === currentElementId ? '1px solid red' : '',
-              position: 'absolute',
-              left: `${xPoint}px`,
-              top: `${yPoint}px`,
-              cursor: 'grab',
-              color: 'black',
-              zIndex: showModal ? -1 : 1,
-            }}
-          >
-            {text}
-          </div>
-        ))}
+        {elementsArr.map(
+          ({
+            text,
+            xPoint,
+            yPoint,
+            id,
+            elementType,
+          }: {
+            text: string
+            xPoint: number
+            yPoint: number
+            id: string
+            elementType: string
+          }) => (
+            <div
+              key={id}
+              onKeyDown={(e) => handleKeyPress(e, id)}
+              onClick={() => setCurrentElementId(id)}
+              id={id}
+              tabIndex={0}
+              draggable='true'
+              onDragStart={(e) => dragStart(e, id)}
+              onDragEnd={() => dragEndHandler(id)}
+              style={{
+                border: id === currentElementId ? '1px solid red' : '',
+                position: 'absolute',
+                left: `${xPoint}px`,
+                top: `${yPoint}px`,
+                cursor: 'grab',
+                color: 'black',
+                zIndex: showModal ? -1 : 1,
+              }}
+            >
+              {elementType === 'Button' && (
+                <button className={styles.dragButton}>{text}</button>
+              )}
+              {elementType === 'Label' && <p>{text}</p>}
+              {elementType === 'Input' && (
+                <input type='text' placeholder='Enter text' autoFocus />
+              )}
+            </div>
+          )
+        )}
       </div>
       <div className={styles.rightPart}>
-        <div
-          id='draggable'
-          draggable='true'
-          onDragStart={dragStart}
-          onDragEnd={dragEndHandler}
-          style={{
-            cursor: 'grab',
-            color: 'white',
-          }}
-        >
-          Drag me
-        </div>
+        {inputs.map((input) => (
+          <div
+            id='draggable'
+            draggable='true'
+            onDragStart={(e) => dragStart(e, '', input)}
+            onDragEnd={() => dragEndHandler('')}
+            className={styles.draggableItem}
+          >
+            {input}
+          </div>
+        ))}
       </div>
     </div>
   )
