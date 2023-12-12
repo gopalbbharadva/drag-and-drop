@@ -1,30 +1,31 @@
-# React + TypeScript + Vite
+## Mini page builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Documentation
+- Mini page builder is a project in which we have 3 elements in the right sidebar.
+- We can drag those elements to remaining white space.
+- After dragging complete it will ask you what text should be there for element, and we can change the coordinate values as well.
+- We can drag element in white space wherever we want.
+- If we want to delete the element just click on the element and press 'Delete' from keyboard.
+- If we want to edit text or co ordinates then click the element and press 'Enter' from keyboard
+- You can multiple lements as well.
+- Mi ni page builder will persist the values so if we refresh the page it will stay.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instructions ot run code 
 
-## Expanding the ESLint configuration
+### If you want to run this project locally then do the following steps.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Download zip file for project.
 
-- Configure the top-level `parserOptions` property like this:
+  
+  ![image](https://github.com/gopalbbharadva/drag-and-drop/assets/75557011/f5570b18-d1cd-477b-a3cd-f87eb8a42588)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+  
+- Then extract the folder and open it in terminal
+  ![image](https://github.com/gopalbbharadva/drag-and-drop/assets/75557011/cf36a37a-0792-4aaa-bdc1-ed139dead7bf)
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- then just run below command.
+  ```
+  npm run dev
+  ```
+- ![image](https://github.com/gopalbbharadva/drag-and-drop/assets/75557011/d53f3609-eed9-4f4e-8d85-1ce9cc16a8e7)
